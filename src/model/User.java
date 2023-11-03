@@ -11,6 +11,7 @@ public class User {
         return password;
     }
 
+    //Constructor
     public User(String username, String email, String password, boolean encrypt) {
         this.username = username;
         this.email = email;
@@ -20,21 +21,19 @@ public class User {
             this.password = password;
     }
 
+    //Login
     public boolean login(String enteredPassword) {
+
         // Hash the entered password for comparison
         String hashedEnteredPassword = encryptPassword(enteredPassword);
-        // Print for debugging
-        System.out.println("Stored Password: " + this.password);
-        System.out.println("Entered Password: " + hashedEnteredPassword);
         
         // Compare the hashedEnteredPassword with the stored password
         boolean loginResult = this.password.equals(hashedEnteredPassword);
-        System.out.println("Login Result: " + loginResult);
-        
         return loginResult;
     }
     
 
+    // Encripta la contra con SHA-256
     private String encryptPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -56,6 +55,7 @@ public class User {
         }
     }
 
+
     public String getUsername() {
         return username;
     }
@@ -63,4 +63,5 @@ public class User {
     public String getEmail() {
         return email;
     }
+
 }
