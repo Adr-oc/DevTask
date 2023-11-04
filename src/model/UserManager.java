@@ -21,7 +21,7 @@ public class UserManager {
     public void signUp(String username, String email, String password, String userType) {
         // Verifica si el usuario ya existe si ya existe no lo crea
         for (User user : users) {
-            if (user.getUsername().equals(username) || user.getEmail().equals(email)) {
+            if (user.getEmail().equals(email)) {
                 System.out.println("Username or email is already taken.");
                 return;
             }
@@ -44,11 +44,11 @@ public class UserManager {
 
 
     //Login
-    public void login(String username, String enteredPassword){
+    public void login(String email, String enteredPassword){
         User loginUser = null;
         // Busca el usuario en la lista que cargo del csv
         for (User user : users) {
-            if (user.getUsername().equals(username)) {
+            if (user.getEmail().equals(email)) {
                 loginUser = user;
                 break;
             }
