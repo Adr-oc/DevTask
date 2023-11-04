@@ -8,8 +8,7 @@ public class Main {
         //clear screen
         System.out.print("\033[H\033[2J");
         
-
-
+        
         //Ejemplo como usar login y singUp
         //===============Inicia EJEMPLO=====================//
 
@@ -55,14 +54,14 @@ public class Main {
 
         //example of login
         System.out.println("==========Login=========");
-        System.out.print("Enter username:");
+        System.out.print("Enter email:");
         scanner.nextLine();
-        user = scanner.nextLine();
+        email = scanner.nextLine();
         System.out.print("Enter password:");
         password = scanner.nextLine();
 
         //se llama a la funcion login del userManager
-        userManager.login(user, password);
+        userManager.login(email, password);
         //===============Termina EJEMPLO=====================//
 
     }
