@@ -2,6 +2,8 @@ package model;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserManager {
 
@@ -16,35 +18,52 @@ public class UserManager {
         loadUsersFromCSV();
     }
 
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 
     // Sign-up - crea un nuevo usuario
-    public void signUp(String username, String email, String password, String userType) {
+    public boolean signUp(String username, String email, String password, String userType) {
+        
         // Verifica si el usuario ya existe si ya existe no lo crea
         for (User user : users) {
             if (user.getEmail().equals(email)) {
                 System.out.println("Username or email is already taken.");
-                return;
+                return false;
             }
         }
-
+    
         // Crea el usuario dependiendo del tipo
         if (userType.equals("dev")) {
             users.add(new DevUser(username, email, password, true));
+            System.out.println("Dev user created."); // Debug statement 2
         } else if (userType.equals("normal")) {
             users.add(new NormalUser(username, email, password, true));
+            System.out.println("Normal user created."); // Debug statement 2
         } else {
             System.out.println("Invalid user type.");
-            return;
+            return false;
         }
         
         // Guarda los usuarios en el csv
-        saveUsersToCSV();
+        saveUserToCSV(users.get(users.size() - 1));
+        System.out.println("Users saved to CSV."); // Debug statement 3
         System.out.println("Sign-up successful.");
+        return true;
     }
 
 
     //Login
-    public void login(String email, String enteredPassword){
+    public boolean login(String email, String enteredPassword){
+
+        if (!isValidEmail(email)) {
+            System.out.println("Invalid email.");
+            return false;
+        }
+
         User loginUser = null;
         // Busca el usuario en la lista que cargo del csv
         for (User user : users) {
@@ -57,13 +76,15 @@ public class UserManager {
         // Verifica si el usuario existe y si la contraseña es correcta
         if (loginUser != null && loginUser.login(enteredPassword)) {
             System.out.println("Login successful.");
+             return true;
         } else {
             System.out.println("Login failed.");
+            return false;
         }
     }
 
 
-    //Funcion temporal solo para desarrollar no implementar en el proyecto final
+    //!!!!Funcion temporal solo para desarrollar no implementar en el proyecto final!!!!!!!
     public List<User> getUsers() {
         return users;
     }
@@ -97,26 +118,16 @@ public class UserManager {
     }
     
     // Save users to CSV file
-    private void saveUsersToCSV() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFileName))) {
-            for (User user : users) {
-                if (user instanceof NormalUser) {
-                    NormalUser normalUser = (NormalUser) user;
-                    String csvLine = normalUser.getUsername() + "," + normalUser.getEmail() + "," + normalUser.getPassword()+ "," + "normal";
-                    bw.write(csvLine);
-                    bw.newLine();
-                }
-                else if (user instanceof DevUser) {
-                    DevUser devUser = (DevUser) user;
-                    String csvLine = devUser.getUsername() + "," + devUser.getEmail() + "," + devUser.getPassword()+ "," + "dev";
-                    bw.write(csvLine);
-                    bw.newLine();
-                }
+    private void saveUserToCSV(User user) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(csvFileName, true))) {
+            if (user instanceof DevUser){
+                pw.println(user.getUsername() + "," + user.getEmail() + "," + user.getPassword() + "," + "dev");
+            } else if (user instanceof NormalUser){
+                pw.println(user.getUsername() + "," + user.getEmail() + "," + user.getPassword() + "," + "normal");
             }
         } catch (IOException e) {
-            // Handle any exceptions, such as a write error
+            System.out.println("Error writing user to CSV file: " + e.getMessage());
         }
     }
-
 
 }
