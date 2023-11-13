@@ -515,6 +515,9 @@ public class SingUpVista {
                 if (emailBol && passwordBol) {
                     if (userController.login(email, password)) {
                         JOptionPane.showMessageDialog(null, "Bienvenido");
+                        frame.dispose();
+                        Dashboard dashboard = new Dashboard();
+                        dashboard.GUI();
                     } else {
                         tituloEmail.setForeground(Color.decode(Red));
                         emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
@@ -528,31 +531,7 @@ public class SingUpVista {
             frame.setVisible(true);
 
         }
-
-        static class RoundedBorder implements Border {
-
-            private final int radius;
-
-            RoundedBorder(int radius) {
-                this.radius = radius;
-            }
-
-            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-                g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-            }
-
-            public Insets getBorderInsets(Component c) {
-                return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
-            }
-
-            public boolean isBorderOpaque() {
-                return true;
-            }
-
-        }
-
-
     }
+}
     //#endregion
 
-}
