@@ -15,6 +15,7 @@ public class FormularioProyecto {
     private String Green = "#a8e65f";
     private String Red = "#ff0000";
     private String Gray = "#CCCCCC";
+    private String bgColor = "#191A23";
     private boolean nombreBol, lenguajeBol, descrBol = true;
 
 
@@ -39,8 +40,8 @@ public class FormularioProyecto {
         JFrame frame = new JFrame("Formulario de Proyecto");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridBagLayout());
-        frame.setSize(1024, 769);
-        frame.getContentPane().setBackground(Color.decode("#272830"));
+        frame.setSize(1024, 620);
+        frame.getContentPane().setBackground(Color.decode(bgColor));
 
         GridBagConstraints restricciones = new GridBagConstraints();
         restricciones.weightx = 0.5;
@@ -63,7 +64,7 @@ public class FormularioProyecto {
 
         JTextField nombreTexto = new JTextField();
         nombreTexto.setForeground(Color.decode(Gray));
-        nombreTexto.setBackground(Color.decode("#272830"));
+        nombreTexto.setBackground(Color.decode(bgColor));
         nombreTexto.setFont(new Font("Consolas", Font.PLAIN, 17));
         nombreTexto.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Gray)));
         setFocusListeners(nombreTexto, tituloNombre);
@@ -81,7 +82,7 @@ public class FormularioProyecto {
 
         JTextField lenguajesTexto = new JTextField();
         lenguajesTexto.setForeground(Color.decode(Gray));
-        lenguajesTexto.setBackground(Color.decode("#272830"));
+        lenguajesTexto.setBackground(Color.decode(bgColor));
         lenguajesTexto.setFont(new Font("Consolas", Font.PLAIN, 17));
         lenguajesTexto.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Gray)));
         restricciones.gridy = 2;
@@ -101,7 +102,7 @@ public class FormularioProyecto {
         //descripcion
         JTextArea descripcionTexto = new JTextArea(10, 20);
         descripcionTexto.setForeground(Color.decode(Gray));
-        descripcionTexto.setBackground(Color.decode("#272830"));
+        descripcionTexto.setBackground(Color.decode(bgColor));
         descripcionTexto.setFont(new Font("Consolas", Font.PLAIN, 17));
         descripcionTexto.setLineWrap(true);
         descripcionTexto.setWrapStyleWord(true);
@@ -125,7 +126,7 @@ public class FormularioProyecto {
         //boton enviar
         JButton botonEnviar = new JButton("Enviar");
         botonEnviar.setForeground(Color.decode(Gray));
-        botonEnviar.setBackground(Color.decode("#272830"));
+        botonEnviar.setBackground(Color.decode(bgColor));
         botonEnviar.setFont(new Font("Consolas", Font.PLAIN, 17));
         botonEnviar.setPreferredSize(new Dimension(200, 50));
         botonEnviar.setMaximumSize(new Dimension(200, 50));

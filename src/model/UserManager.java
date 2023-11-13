@@ -2,8 +2,6 @@ package model;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class UserManager {
 
@@ -18,16 +16,9 @@ public class UserManager {
         loadUsersFromCSV();
     }
 
-    private boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
 
     // Sign-up - crea un nuevo usuario
     public boolean signUp(String username, String email, String password, String userType) {
-        
         // Verifica si el usuario ya existe si ya existe no lo crea
         for (User user : users) {
             if (user.getEmail().equals(email)) {
@@ -58,12 +49,6 @@ public class UserManager {
 
     //Login
     public boolean login(String email, String enteredPassword){
-
-        if (!isValidEmail(email)) {
-            System.out.println("Invalid email.");
-            return false;
-        }
-
         User loginUser = null;
         // Busca el usuario en la lista que cargo del csv
         for (User user : users) {
