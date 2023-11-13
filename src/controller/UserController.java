@@ -1,4 +1,7 @@
 package controller;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import model.UserManager;
 
 
@@ -14,6 +17,12 @@ public class UserController {
         this.userManager = new UserManager();
     }
 
+    public boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
     
     public boolean login(String email, String enteredPassword) {
         if (userManager.login(email, enteredPassword)) {
@@ -30,6 +39,9 @@ public class UserController {
             return false;
         }
     }
+
+
+
 
 
 }

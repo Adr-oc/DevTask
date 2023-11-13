@@ -17,18 +17,57 @@ public class SingUpVista {
     private boolean usernameBol, emailBol, passwordBol, userTypeBol = true;
     public UserController userController = new UserController();
 
+    private void setEmailFocusListeners(JTextField emailTxtBox, JLabel tituloEmail) {
+        emailTxtBox.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                emailTxtBox.setBorder(new MatteBorder(0, 0, 2, 0, Color.decode(Green)));
+                emailTxtBox.setForeground(Color.decode(Green));
+                tituloEmail.setFont(new Font("Consolas", Font.BOLD, 18));
+                tituloEmail.setForeground(Color.decode(Green));
+                tituloEmail.setText("Email:");
+            }
+
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (userController.isValidEmail(emailTxtBox.getText())) {
+                    emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Gray)));
+                    emailTxtBox.setForeground(Color.decode(Succes));
+                    tituloEmail.setFont(new Font("Consolas", Font.PLAIN, 17));
+                    tituloEmail.setForeground(Color.decode(Gray));
+                    tituloEmail.setText("Email:");
+                }else{
+                    emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
+                    emailTxtBox.setForeground(Color.decode(Red));
+                    tituloEmail.setFont(new Font("Consolas", Font.PLAIN, 17));
+                    tituloEmail.setForeground(Color.decode(Red));
+                    tituloEmail.setText("Email:  el email no es valido");
+                }
+            }
+        });
+    }
+
+
     private void setFocusListeners(JTextField userNameTxtBox, JLabel tituloNombre) {
         userNameTxtBox.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 userNameTxtBox.setBorder(new MatteBorder(0, 0, 2, 0, Color.decode(Green)));
                 userNameTxtBox.setForeground(Color.decode(Green));
+                tituloNombre.setFont(new Font("Consolas", Font.BOLD, 18));
                 tituloNombre.setForeground(Color.decode(Green));
             }
 
             public void focusLost(java.awt.event.FocusEvent evt) {
-                userNameTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Gray)));
-                userNameTxtBox.setForeground(Color.decode(Gray));
-                tituloNombre.setForeground(Color.decode(Gray));
+                if (userNameTxtBox.getText().equals("") || userNameTxtBox.getText().equals(null)) {
+                    userNameTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
+                    userNameTxtBox.setForeground(Color.decode(Red));
+                    tituloNombre.setFont(new Font("Consolas", Font.PLAIN, 17));
+                    tituloNombre.setForeground(Color.decode(Red));
+                }else{
+                    userNameTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Gray)));
+                    userNameTxtBox.setForeground(Color.decode(Succes));
+                    tituloNombre.setFont(new Font("Consolas", Font.PLAIN, 17));
+                    tituloNombre.setForeground(Color.decode(Gray));
+                }
+ 
             }
         });
     }
@@ -39,13 +78,23 @@ public class SingUpVista {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 userTypeComboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.decode(Green)));
                 userTypeComboBox.setForeground(Color.decode(Green));
+                titulo.setFont(new Font("Consolas", Font.BOLD, 18));
                 titulo.setForeground(Color.decode(Green));
             }
 
             public void focusLost(java.awt.event.FocusEvent evt) {
-                userTypeComboBox.setBorder(new MatteBorder(1, 1, 1, 1, Color.decode(Gray)));
-                userTypeComboBox.setForeground(Color.decode(Gray));
-                titulo.setForeground(Color.decode(Gray));
+                if (userTypeComboBox.getSelectedItem().equals("")) {
+                    userTypeComboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.decode(Red)));
+                    userTypeComboBox.setForeground(Color.decode(Red));
+                    titulo.setFont(new Font("Consolas", Font.PLAIN, 17));
+                    titulo.setForeground(Color.decode(Red));
+                }else{
+                    userTypeComboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.decode(Gray)));
+                    userTypeComboBox.setForeground(Color.decode(Succes));
+                    titulo.setFont(new Font("Consolas", Font.PLAIN, 17));
+                    titulo.setForeground(Color.decode(Gray));
+                
+                }
             }
         });
     }
@@ -140,7 +189,7 @@ public class SingUpVista {
         emailTxtBox.setBackground(Color.decode(bgColor));
         emailTxtBox.setFont(new Font("Consolas", Font.PLAIN, 17));
         emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Gray)));
-        setFocusListeners(emailTxtBox, tituloEmail);
+        setEmailFocusListeners(emailTxtBox, tituloEmail);
         restricciones.fill = GridBagConstraints.HORIZONTAL;
         restricciones.gridy++;
         restricciones.insets = new Insets(0, 50, 0, 50);
@@ -265,7 +314,11 @@ public class SingUpVista {
 
             if (usernameBol && emailBol && passwordBol && userTypeBol) {
                 if (userController.signUp(username, email, password, userType)) {
-                    JOptionPane.showMessageDialog(null, "Cuenta creada exitosamente");
+                    //abrir ventana de inicio de sesion
+                    JOptionPane.showMessageDialog(null, "Usuario creado exitosamente");
+                    frame.dispose();
+                    LoginVista loginVista = new LoginVista();
+                    loginVista.GUI();
                 } else {
                     tituloEmail.setForeground(Color.decode(Red));
                     emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
@@ -382,7 +435,7 @@ public class SingUpVista {
             emailTxtBox.setBackground(Color.decode(bgColor));
             emailTxtBox.setFont(new Font("Consolas", Font.PLAIN, 17));
             emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Gray)));
-            setFocusListeners(emailTxtBox, tituloEmail);
+            setEmailFocusListeners(emailTxtBox, tituloEmail);
             restricciones.fill = GridBagConstraints.HORIZONTAL;
             restricciones.gridy++;
             restricciones.insets = new Insets(0, 50, 0, 50);
@@ -462,6 +515,9 @@ public class SingUpVista {
                 if (emailBol && passwordBol) {
                     if (userController.login(email, password)) {
                         JOptionPane.showMessageDialog(null, "Bienvenido");
+                        frame.dispose();
+                        Dashboard dashboard = new Dashboard();
+                        dashboard.GUI();
                     } else {
                         tituloEmail.setForeground(Color.decode(Red));
                         emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
@@ -475,31 +531,7 @@ public class SingUpVista {
             frame.setVisible(true);
 
         }
-
-        static class RoundedBorder implements Border {
-
-            private final int radius;
-
-            RoundedBorder(int radius) {
-                this.radius = radius;
-            }
-
-            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-                g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-            }
-
-            public Insets getBorderInsets(Component c) {
-                return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
-            }
-
-            public boolean isBorderOpaque() {
-                return true;
-            }
-
-        }
-
-
     }
+}
     //#endregion
 
-}
