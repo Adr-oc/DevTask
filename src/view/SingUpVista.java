@@ -264,69 +264,49 @@ public class SingUpVista {
             email = emailTxtBox.getText();
             password = new String(passwordField.getPassword());
             userType = (String) userTypeComboBox.getSelectedItem();
-            
-            if (username.equals("")  || username.equals(null)) {
-                usernameBol = false;
-                tituloNombre.setForeground(Color.decode(Red));
-                nombreTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
-            }else{
-                usernameBol = true;
-                tituloNombre.setForeground(Color.decode(Succes));
-                nombreTxtBox.setForeground(Color.decode(Succes));
-                nombreTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Succes)));
-            }
-            if (email.equals("") || email.equals(null)) {
-                emailBol = false;
-                tituloEmail.setForeground(Color.decode(Red));
-                emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
-            }else{
-                emailBol = true;
-                tituloEmail.setForeground(Color.decode(Succes));
-                emailTxtBox.setForeground(Color.decode(Succes));
-                emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Succes)));
-            }
-            if (password.equals("") || password.equals(null)) {
-                passwordBol = false;
-                tituloPassword.setForeground(Color.decode(Red));
-                passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
-            }else{
-                passwordBol = true;
-                tituloPassword.setForeground(Color.decode(Succes));
-                passwordField.setForeground(Color.decode(Succes));
-                passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Succes)));
-            }
-            if (userType.equals("") || userType.equals(null)) {
-                userTypeBol = false;
-                tituloTypeOfUser.setForeground(Color.decode(Red));
-                userTypeComboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.decode(Red)));
-            }else{
-                userTypeBol = true;
-                if (userType.equals("Normal")) {
-                    userType = "normal";
-                }
-                if (userType.equals("Desarrollador")) {
-                    userType = "dev";
-                }
-                tituloTypeOfUser.setForeground(Color.decode(Succes));
-                userTypeComboBox.setForeground(Color.decode(Succes));
-                userTypeComboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.decode(Succes)));
-            }
-
-            if (usernameBol && emailBol && passwordBol && userTypeBol) {
-                if (userController.signUp(username, email, password, userType)) {
-                    //abrir ventana de inicio de sesion
+            System.err.println(userType);
+            int signUpResult = userController.handleSignUp(username, email, password, userType);
+            switch (signUpResult) {
+                case 0:
                     JOptionPane.showMessageDialog(null, "Usuario creado exitosamente");
                     frame.dispose();
                     LoginVista loginVista = new LoginVista();
                     loginVista.GUI();
-                } else {
+                    break;
+                case 1:
+                    tituloNombre.setForeground(Color.decode(Red));
+                    nombreTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
+                    nombreTxtBox.setForeground(Color.decode(Red));
+                    break;
+                case 2:
                     tituloEmail.setForeground(Color.decode(Red));
                     emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
                     emailTxtBox.setForeground(Color.decode(Red));
+                    break;
+                case 3:
+                    tituloPassword.setForeground(Color.decode(Red));
+                    tituloPassword.setText("Password: la contraseña > 8 caracteres");
+                    passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
+                    passwordField.setForeground(Color.decode(Red));
+                    break;
+                case 4:
+                    tituloTypeOfUser.setForeground(Color.decode(Red));
+                    userTypeComboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.decode(Red)));
+                    userTypeComboBox.setForeground(Color.decode(Red));
+                    break;
+                case 5:
                     JOptionPane.showMessageDialog(null, "El usuario ya existe");
-                }
-            }else{
-                return;
+                    break;
+                default:
+                    tituloNombre.setForeground(Color.decode(Green));
+                    nombreTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Green)));
+                    tituloEmail.setForeground(Color.decode(Green));
+                    emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Green)));
+                    tituloPassword.setForeground(Color.decode(Green));
+                    passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Green)));
+                    tituloTypeOfUser.setForeground(Color.decode(Green));
+                    userTypeComboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.decode(Green)));
+                    break;
             }
 
         });
@@ -336,27 +316,6 @@ public class SingUpVista {
 
     }
 
-    static class RoundedBorder implements Border {
-
-        private final int radius;
-
-        RoundedBorder(int radius) {
-            this.radius = radius;
-        }
-
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-        }
-
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
-        }
-
-        public boolean isBorderOpaque() {
-            return true;
-        }
-
-    }
     //#endregion
 
 
@@ -490,40 +449,33 @@ public class SingUpVista {
                 email = emailTxtBox.getText();
                 password = new String(passwordField.getPassword());
 
-                if (email.equals("") || email.equals(null)) {
-                    tituloEmail.setForeground(Color.decode(Red));
-                    emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
-                    emailTxtBox.setForeground(Color.decode(Red));
-                    emailBol = false;
-                }else{
-                    tituloEmail.setForeground(Color.decode(Succes));
-                    emailTxtBox.setForeground(Color.decode(Succes));
-                    emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Succes)));
-                    emailBol = true;
-                }
-                if (password.equals("") || password.equals(null)) {
-                    tituloPassword.setForeground(Color.decode(Red));
-                    passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
-                    passwordField.setForeground(Color.decode(Red));
-                    passwordBol = false;
-                }else {
-                    tituloPassword.setForeground(Color.decode(Succes));
-                    passwordField.setForeground(Color.decode(Succes));
-                    passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Succes)));
-                    passwordBol = true;
-                }
-                if (emailBol && passwordBol) {
-                    if (userController.login(email, password)) {
+                int loginResult = userController.handleLogin(email, password);
+                switch (loginResult) {
+                    case 0:
                         JOptionPane.showMessageDialog(null, "Bienvenido");
                         frame.dispose();
                         Dashboard dashboard = new Dashboard();
                         dashboard.GUI();
-                    } else {
+                        break;
+                    case 1:
                         tituloEmail.setForeground(Color.decode(Red));
                         emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
                         emailTxtBox.setForeground(Color.decode(Red));
+                        tituloPassword.setForeground(Color.decode(Red));
+                        passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
+                        passwordField.setForeground(Color.decode(Red));
                         JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
-                    }
+                        break;
+                    case 2:
+                        tituloEmail.setForeground(Color.decode(Red));
+                        emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
+                        emailTxtBox.setForeground(Color.decode(Red));
+                        break;
+                    case 3:
+                        tituloPassword.setForeground(Color.decode(Red));
+                        passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
+                        passwordField.setForeground(Color.decode(Red));
+                        break;
                 }
             });
             
