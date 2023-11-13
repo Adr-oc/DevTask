@@ -1,4 +1,5 @@
 package view;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
@@ -151,7 +152,7 @@ public class FormularioProyecto {
             nombreProyecto = nombreTexto.getText();
             lenguajes = lenguajesTexto.getText();
             descripcion = descripcionTexto.getText();
-            
+
             if (nombreProyecto == null || nombreProyecto.equals("")) {
                 tituloNombre.setForeground(Color.decode(Red));
                 nombreTexto.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
@@ -162,14 +163,14 @@ public class FormularioProyecto {
             if (lenguajes == null || lenguajes.equals("")) {
                 tituloLenguajes.setForeground(Color.decode(Red));
                 lenguajesTexto.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
-            }else {
+            } else {
                 lenguajeBol = true;
             }
             if (descripcion == null || descripcion.equals("")) {
                 tituloDescripcion.setForeground(Color.decode(Red));
                 descripcionTexto.setForeground(Color.decode(Red));
                 descrBol = false;
-            }else {
+            } else {
                 descrBol = true;
             }
 
@@ -177,9 +178,9 @@ public class FormularioProyecto {
                 String nuevoProyecto = nombreProyecto + ";" + lenguajes + ";" + descripcion;
                 adjuntarArchivo(nuevoProyecto);
             }
-            
+
         });
-        
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 

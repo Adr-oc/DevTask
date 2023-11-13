@@ -1,4 +1,5 @@
 package view;
+
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -7,7 +8,56 @@ import java.util.List;
 
 public class Dashboard extends JFrame {
 
-    
+    private static JPanel getjPanel(JFrame proyectos) {
+        PanelRound barraLateral = new PanelRound();
+        barraLateral.setRoundTopRight(30);
+        barraLateral.setRoundBottomRight(30);
+        barraLateral.setLayout(new BoxLayout(barraLateral, BoxLayout.Y_AXIS));
+        barraLateral.setPreferredSize(new Dimension(200, proyectos.getHeight()));
+        barraLateral.setBackground(Color.decode(Colors.bgCard));
+
+        JLabel barraNombreUsuario = new JLabel("NombreDeUsuario");
+        barraNombreUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
+        barraNombreUsuario.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+        barraNombreUsuario.setForeground(Color.decode("#C6BFD6"));
+        barraNombreUsuario.setFont(new Font("Consolas", Font.PLAIN, 20));
+
+        JLabel barraTipoUsuario = new JLabel("Desarrollador/Usuario");
+        barraTipoUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
+        barraTipoUsuario.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
+        barraTipoUsuario.setForeground(Color.decode("#C6BFD6"));
+        barraTipoUsuario.setFont(new Font("Consolas", Font.ITALIC, 14));
+        barraLateral.add(barraNombreUsuario);
+        barraLateral.add(barraTipoUsuario);
+
+        JButton botonVerMisPosts = new JButton("Ver mis proyectos");
+        botonVerMisPosts.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botonVerMisPosts.setForeground(Color.decode("#4B3B6E"));
+        botonVerMisPosts.setBackground(Color.decode("#C6BFD6"));
+        botonVerMisPosts.setFont(new Font("Consolas", Font.PLAIN, 14));
+        barraLateral.add(botonVerMisPosts);
+        botonVerMisPosts.addActionListener(e -> {
+            System.out.println("botonVerMisPosts");
+        });
+
+        // No borrar este texto, es el margen entre los dos botones de una manera
+        // sencilla.
+        JLabel textoEnBlanco = new JLabel("");
+        textoEnBlanco.setAlignmentX(Component.CENTER_ALIGNMENT);
+        textoEnBlanco.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
+        barraLateral.add(textoEnBlanco);
+
+        JButton botonCrearUnProyecto = new JButton("Crear un Proyecto");
+        botonCrearUnProyecto.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botonCrearUnProyecto.setForeground(Color.decode("#4B3B6E"));
+        botonCrearUnProyecto.setBackground(Color.decode("#C6BFD6"));
+        botonCrearUnProyecto.setFont(new Font("Consolas", Font.PLAIN, 14));
+        botonCrearUnProyecto.addActionListener(e -> {
+            System.out.println("botonCrearUnProyecto");
+        });
+        barraLateral.add(botonCrearUnProyecto);
+        return barraLateral;
+    }
 
     public void GUI() {
         JFrame ventanaProyectos = new JFrame("Proyectos");
@@ -34,15 +84,13 @@ public class Dashboard extends JFrame {
                 new Post("usuarioM", "Titulo11", "Python", "Description 11"));
 
         JPanel postListPanel = new JPanel();
-        postListPanel.setLayout(new GridLayout(0, 2)); 
+        postListPanel.setLayout(new GridLayout(0, 2));
         postListPanel.setBackground(Color.decode(Colors.bgColor));
         postListPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 10, 50));
 
         for (Post post : posts) {
             postListPanel.add(new PostPanel(post));
         }
-
-
 
         // ScrollPane
         JScrollPane scrollPane = new JScrollPane(postListPanel);
@@ -118,7 +166,6 @@ public class Dashboard extends JFrame {
         }
     }
 
-
     public static class PostPanel extends JPanel {
         public PostPanel(Post post) {
             this.setBackground(Color.decode(Colors.bgColor));
@@ -129,51 +176,49 @@ public class Dashboard extends JFrame {
             panelLabels.setOpaque(false);
 
             JLabel labelNombreProyecto = new JLabel(post.getTitle());
-            labelNombreProyecto.setFont(new Font("Consolas", Font.PLAIN, 30));
+            labelNombreProyecto.setFont(new Font("Consolas", Font.PLAIN, 22));
             labelNombreProyecto.setForeground(Color.decode(Colors.Primary));
 
             JLabel labelLenguajes = new JLabel(post.getLanguages());
-            labelLenguajes.setFont(new Font("Consolas", Font.PLAIN, 20));
+            labelLenguajes.setFont(new Font("Consolas", Font.PLAIN, 19));
             labelLenguajes.setForeground(Color.decode(Colors.Secondary));
 
             JLabel labelUsuario = new JLabel(post.getUsername());
-            labelUsuario.setFont(new Font("Consolas", Font.PLAIN, 17));
-            labelUsuario.setForeground(Color.decode(Colors.Primary));
-
+            labelUsuario.setFont(new Font("Consolas", Font.PLAIN, 19));
+            labelUsuario.setForeground(Color.decode(Colors.Titles));
 
             panelLabels.add(labelNombreProyecto);
             panelLabels.add(labelLenguajes);
             panelLabels.add(labelUsuario);
 
+            JButton botonVerProyecto = new JButton("Ver");
 
-            JButton botonAplicar = new JButton("Aplicar");
+            // !================CAMBIAR ESTO POR EL ID DEL PROYECTO============
+            botonVerProyecto.setName(post.getTitle());
+            // !===============================================================
 
-        //!================CAMBIAR ESTO POR EL ID DEL PROYECTO============
-            botonAplicar.setName(post.getTitle());
-        //!===============================================================
-
-            botonAplicar.setAlignmentX(Component.CENTER_ALIGNMENT);
-            botonAplicar.setForeground(Color.decode(Colors.TextColor));
-            botonAplicar.setBackground(Color.decode(Colors.bgCard));
-            botonAplicar.setFont(new Font("Consolas", Font.PLAIN, 17));
-            botonAplicar.setBorder(new RoundedBorder(8));
-            botonAplicar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            botonAplicar.addMouseListener(new java.awt.event.MouseAdapter() {
+            botonVerProyecto.setAlignmentX(Component.CENTER_ALIGNMENT);
+            botonVerProyecto.setForeground(Color.decode(Colors.TextColor));
+            botonVerProyecto.setBackground(Color.decode(Colors.bgCard));
+            botonVerProyecto.setFont(new Font("Consolas", Font.PLAIN, 17));
+            botonVerProyecto.setBorder(new RoundedBorder(8));
+            botonVerProyecto.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            botonVerProyecto.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    botonAplicar.setForeground(Color.decode(Colors.Primary));
+                    botonVerProyecto.setForeground(Color.decode(Colors.Primary));
                 }
-            
+
                 public void mouseExited(java.awt.event.MouseEvent evt) {
-                    botonAplicar.setForeground(Color.decode(Colors.TextColor));
+                    botonVerProyecto.setForeground(Color.decode(Colors.TextColor));
                 }
             });
-            botonAplicar.addActionListener(e -> {
-                System.out.println(botonAplicar.getName());
+            botonVerProyecto.addActionListener(e -> {
+                System.out.println(botonVerProyecto.getName());
             });
             JPanel buttonPanel = new JPanel();
-            buttonPanel.setLayout(new GridLayout(0, 3)); 
+            buttonPanel.setLayout(new GridLayout(0, 3));
             buttonPanel.setOpaque(false);
-            buttonPanel.add(botonAplicar);
+            buttonPanel.add(botonVerProyecto);
 
             PanelRound contentPanel = new PanelRound();
             int roundInt = 30;
@@ -192,56 +237,5 @@ public class Dashboard extends JFrame {
             this.setBorder(BorderFactory.createEmptyBorder(bordersInt, bordersInt, bordersInt, bordersInt));
             this.add(contentPanel);
         }
-    }
-
-    private static JPanel getjPanel(JFrame proyectos) {
-        PanelRound barraLateral = new PanelRound();
-        barraLateral.setRoundTopRight(30);
-        barraLateral.setRoundBottomRight(30);
-        barraLateral.setLayout(new BoxLayout(barraLateral, BoxLayout.Y_AXIS));
-        barraLateral.setPreferredSize(new Dimension(200, proyectos.getHeight()));
-        barraLateral.setBackground(Color.decode(Colors.bgCard));
-
-        JLabel barraNombreUsuario = new JLabel("NombreDeUsuario");
-        barraNombreUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
-        barraNombreUsuario.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
-        barraNombreUsuario.setForeground(Color.decode("#C6BFD6"));
-        barraNombreUsuario.setFont(new Font("Consolas", Font.PLAIN, 20));
-
-        JLabel barraTipoUsuario = new JLabel("Desarrollador/Usuario");
-        barraTipoUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
-        barraTipoUsuario.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
-        barraTipoUsuario.setForeground(Color.decode("#C6BFD6"));
-        barraTipoUsuario.setFont(new Font("Consolas", Font.ITALIC, 14));
-        barraLateral.add(barraNombreUsuario);
-        barraLateral.add(barraTipoUsuario);
-
-        JButton botonVerMisPosts = new JButton("Ver mis proyectos");
-        botonVerMisPosts.setAlignmentX(Component.CENTER_ALIGNMENT);
-        botonVerMisPosts.setForeground(Color.decode("#4B3B6E"));
-        botonVerMisPosts.setBackground(Color.decode("#C6BFD6"));
-        botonVerMisPosts.setFont(new Font("Consolas", Font.PLAIN, 14));
-        barraLateral.add(botonVerMisPosts);
-        botonVerMisPosts.addActionListener(e -> {
-            System.out.println("botonVerMisPosts");
-        });
-
-        // No borrar este texto, es el margen entre los dos botones de una manera
-        // sencilla.
-        JLabel textoEnBlanco = new JLabel("");
-        textoEnBlanco.setAlignmentX(Component.CENTER_ALIGNMENT);
-        textoEnBlanco.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
-        barraLateral.add(textoEnBlanco);
-
-        JButton botonCrearUnProyecto = new JButton("Crear un Proyecto");
-        botonCrearUnProyecto.setAlignmentX(Component.CENTER_ALIGNMENT);
-        botonCrearUnProyecto.setForeground(Color.decode("#4B3B6E"));
-        botonCrearUnProyecto.setBackground(Color.decode("#C6BFD6"));
-        botonCrearUnProyecto.setFont(new Font("Consolas", Font.PLAIN, 14));
-        botonCrearUnProyecto.addActionListener(e -> {
-            System.out.println("botonCrearUnProyecto");
-        });
-        barraLateral.add(botonCrearUnProyecto);
-        return barraLateral;
     }
 }

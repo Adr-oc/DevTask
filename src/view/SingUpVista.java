@@ -1,21 +1,23 @@
 package view;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+
 import controller.UserController;
 
 public class SingUpVista {
 
     //#region SingUpVista
-    public String username,email,password,userType = null;
+    public String username, email, password, userType = null;
+    public UserController userController = new UserController();
     private String Green = "#a8e65f";
     private String Succes = "#2ECC71";
     private String Red = "#E74C3C";
     private String Gray = "#CCCCCC";
     private String bgColor = "#191A23";
     private boolean usernameBol, emailBol, passwordBol, userTypeBol = true;
-    public UserController userController = new UserController();
 
     private void setEmailFocusListeners(JTextField emailTxtBox, JLabel tituloEmail) {
         emailTxtBox.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -34,7 +36,7 @@ public class SingUpVista {
                     tituloEmail.setFont(new Font("Consolas", Font.PLAIN, 17));
                     tituloEmail.setForeground(Color.decode(Gray));
                     tituloEmail.setText("Email:");
-                }else{
+                } else {
                     emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
                     emailTxtBox.setForeground(Color.decode(Red));
                     tituloEmail.setFont(new Font("Consolas", Font.PLAIN, 17));
@@ -61,13 +63,13 @@ public class SingUpVista {
                     userNameTxtBox.setForeground(Color.decode(Red));
                     tituloNombre.setFont(new Font("Consolas", Font.PLAIN, 17));
                     tituloNombre.setForeground(Color.decode(Red));
-                }else{
+                } else {
                     userNameTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Gray)));
                     userNameTxtBox.setForeground(Color.decode(Succes));
                     tituloNombre.setFont(new Font("Consolas", Font.PLAIN, 17));
                     tituloNombre.setForeground(Color.decode(Gray));
                 }
- 
+
             }
         });
     }
@@ -88,12 +90,12 @@ public class SingUpVista {
                     userTypeComboBox.setForeground(Color.decode(Red));
                     titulo.setFont(new Font("Consolas", Font.PLAIN, 17));
                     titulo.setForeground(Color.decode(Red));
-                }else{
+                } else {
                     userTypeComboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.decode(Gray)));
                     userTypeComboBox.setForeground(Color.decode(Succes));
                     titulo.setFont(new Font("Consolas", Font.PLAIN, 17));
                     titulo.setForeground(Color.decode(Gray));
-                
+
                 }
             }
         });
@@ -174,7 +176,7 @@ public class SingUpVista {
         setFocusListeners(nombreTxtBox, tituloNombre);
         restricciones.fill = GridBagConstraints.HORIZONTAL;
         restricciones.insets = new Insets(0, 50, 0, 60);
-        restricciones.gridy++; 
+        restricciones.gridy++;
         frame.add(nombreTxtBox, restricciones);
 
         // Email
@@ -221,18 +223,18 @@ public class SingUpVista {
         tituloTypeOfUser.setForeground(Color.decode(Gray));
         tituloTypeOfUser.setFont(new Font("Consolas", Font.PLAIN, 18));
         frame.add(tituloTypeOfUser, restricciones);
-        String[] userTypes = {"","Normal", "Desarrollador"};
+        String[] userTypes = {"", "Normal", "Desarrollador"};
         JComboBox<String> userTypeComboBox = new JComboBox<>(userTypes);
         userTypeComboBox.setForeground(Color.decode(Gray));
         userTypeComboBox.setBackground(Color.decode(bgColor));
         userTypeComboBox.setFont(new Font("Consolas", Font.PLAIN, 17));
-       
+
         restricciones.fill = GridBagConstraints.HORIZONTAL;
         restricciones.insets = new Insets(10, 50, 0, 50);
         restricciones.gridy++;
         setFocusListenersForComboBox(userTypeComboBox, tituloTypeOfUser);
         frame.add(userTypeComboBox, restricciones);
-        
+
 
         //boton enviar
         JButton botonCrearCuenta = new JButton("Crear Cuenta");
@@ -264,12 +266,12 @@ public class SingUpVista {
             email = emailTxtBox.getText();
             password = new String(passwordField.getPassword());
             userType = (String) userTypeComboBox.getSelectedItem();
-            
-            if (username.equals("")  || username.equals(null)) {
+
+            if (username.equals("") || username.equals(null)) {
                 usernameBol = false;
                 tituloNombre.setForeground(Color.decode(Red));
                 nombreTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
-            }else{
+            } else {
                 usernameBol = true;
                 tituloNombre.setForeground(Color.decode(Succes));
                 nombreTxtBox.setForeground(Color.decode(Succes));
@@ -279,7 +281,7 @@ public class SingUpVista {
                 emailBol = false;
                 tituloEmail.setForeground(Color.decode(Red));
                 emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
-            }else{
+            } else {
                 emailBol = true;
                 tituloEmail.setForeground(Color.decode(Succes));
                 emailTxtBox.setForeground(Color.decode(Succes));
@@ -289,7 +291,7 @@ public class SingUpVista {
                 passwordBol = false;
                 tituloPassword.setForeground(Color.decode(Red));
                 passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
-            }else{
+            } else {
                 passwordBol = true;
                 tituloPassword.setForeground(Color.decode(Succes));
                 passwordField.setForeground(Color.decode(Succes));
@@ -299,7 +301,7 @@ public class SingUpVista {
                 userTypeBol = false;
                 tituloTypeOfUser.setForeground(Color.decode(Red));
                 userTypeComboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.decode(Red)));
-            }else{
+            } else {
                 userTypeBol = true;
                 if (userType.equals("Normal")) {
                     userType = "normal";
@@ -325,12 +327,12 @@ public class SingUpVista {
                     emailTxtBox.setForeground(Color.decode(Red));
                     JOptionPane.showMessageDialog(null, "El usuario ya existe");
                 }
-            }else{
+            } else {
                 return;
             }
 
         });
-        
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
@@ -422,7 +424,7 @@ public class SingUpVista {
             restricciones.weightx = 0.5;
             restricciones.gridy = 0;
             restricciones.anchor = GridBagConstraints.WEST;
- 
+
             // Email
             restricciones.insets = new Insets(150, 50, 0, 50);
             restricciones.gridy++;
@@ -495,7 +497,7 @@ public class SingUpVista {
                     emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
                     emailTxtBox.setForeground(Color.decode(Red));
                     emailBol = false;
-                }else{
+                } else {
                     tituloEmail.setForeground(Color.decode(Succes));
                     emailTxtBox.setForeground(Color.decode(Succes));
                     emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Succes)));
@@ -506,7 +508,7 @@ public class SingUpVista {
                     passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
                     passwordField.setForeground(Color.decode(Red));
                     passwordBol = false;
-                }else {
+                } else {
                     tituloPassword.setForeground(Color.decode(Succes));
                     passwordField.setForeground(Color.decode(Succes));
                     passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Succes)));
@@ -526,12 +528,12 @@ public class SingUpVista {
                     }
                 }
             });
-            
+
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 
         }
     }
 }
-    //#endregion
+//#endregion
 
