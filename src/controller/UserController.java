@@ -65,7 +65,7 @@ public class UserController {
         
         // cambia el valor de userType a "norm" o "dev" si es "Normal" o "Desarrollador" respectivamente
         if ("Normal".equals(userType)) {
-            userType = "norm";
+            userType = "normal";
         } else if ("Desarrollador".equals(userType)) {
             userType = "dev";
         }

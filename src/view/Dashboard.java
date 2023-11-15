@@ -10,14 +10,14 @@ public class Dashboard extends JFrame {
     
 
     public void GUI() {
-        JFrame ventanaProyectos = new JFrame("Proyectos");
-        ventanaProyectos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventanaProyectos.setSize(1200, 700);
-        ventanaProyectos.setLocationRelativeTo(null);
-        ventanaProyectos.setMinimumSize(new Dimension(1200, 700));
-        ventanaProyectos.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximizar la ventana
-        ventanaProyectos.setExtendedState(JFrame.NORMAL); // Reducir el tamaño de la ventana
-        ventanaProyectos.pack();
+        JFrame frame = new JFrame("Proyectos");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1200, 700);
+        frame.setLocationRelativeTo(null);
+        frame.setMinimumSize(new Dimension(1200, 700));
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximizar la ventana
+        frame.setExtendedState(JFrame.NORMAL); // Reducir el tamaño de la ventana
+        frame.pack();
 
         List<Post> posts = Arrays.asList(
                 new Post("usuarioX", "Titulo1", "Java, C+",
@@ -33,28 +33,39 @@ public class Dashboard extends JFrame {
                 new Post("usuarioM", "Titulo10", "Python", "Description 10"),
                 new Post("usuarioM", "Titulo11", "Python", "Description 11"));
 
-        JPanel postListPanel = new JPanel();
-        postListPanel.setLayout(new GridLayout(0, 2)); 
-        postListPanel.setBackground(Color.decode(Colors.bgColor));
-        postListPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 10, 50));
+        CardLayout cardLayout = new CardLayout();
+        JPanel MainPanel = new JPanel();
+        MainPanel.setLayout(cardLayout);
+        MainPanel.setLayout(new GridLayout(0, 2)); 
+        MainPanel.setBackground(Color.decode(Colors.bgColor));
+        MainPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 10, 50));
+
+
+        // Crear los paneles que se mostrarán en MainPanel
+        JPanel scrollPanel = new JPanel(new GridLayout(0, 2));
+        scrollPanel.setBackground(Color.decode(Colors.bgColor));
+        scrollPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 10, 50));
 
         for (Post post : posts) {
-            postListPanel.add(new PostPanel(post));
+            MainPanel.add(new PostPanel(post));
         }
 
+        JPanel newPanel = new JPanel(); // Este es tu nuevo JPanel
+        newPanel.setLayout(new GridLayout(0, 2)); // Establecer layout
+        newPanel.setBackground(Color.decode(Colors.bgColor)); // Establecer color de fondo
+        newPanel.setBorder(BorderFactory.createEmptyBorder(40, 20, 10, 50)); // Establecer borde
 
+        // projectsPanel
+        JScrollPane projectsPanel = new JScrollPane(MainPanel);
+        Dimension preferredSize = MainPanel.getPreferredSize();
+        projectsPanel.setPreferredSize(preferredSize);
+        projectsPanel.getVerticalScrollBar().setUnitIncrement(16); // Ajusta la velocidad de desplazamiento
+        projectsPanel.setBackground(Color.decode(Colors.bgColor));
+        projectsPanel.setBorder(BorderFactory.createEmptyBorder());
 
-        // ScrollPane
-        JScrollPane scrollPane = new JScrollPane(postListPanel);
-        Dimension preferredSize = postListPanel.getPreferredSize();
-        scrollPane.setPreferredSize(preferredSize);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Ajusta la velocidad de desplazamiento
-        scrollPane.setBackground(Color.decode(Colors.bgColor));
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        Dimension d = new Dimension(12, scrollPane.getVerticalScrollBar().getPreferredSize().height);
-        scrollPane.getVerticalScrollBar().setPreferredSize(d);
-        scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+        Dimension d = new Dimension(12, projectsPanel.getVerticalScrollBar().getPreferredSize().height);
+        projectsPanel.getVerticalScrollBar().setPreferredSize(d);
+        projectsPanel.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
                 this.thumbColor = Color.decode((Colors.ScrollbarColor)); // Cambia el color del pulgar
@@ -80,12 +91,13 @@ public class Dashboard extends JFrame {
             }
         });
 
-        JPanel barraLateral = getjPanel(ventanaProyectos);
-        barraLateral.setPreferredSize(new Dimension(200, ventanaProyectos.getHeight()));
-        ventanaProyectos.add(barraLateral, BorderLayout.LINE_START);
-        ventanaProyectos.add(scrollPane, BorderLayout.CENTER);
-        ventanaProyectos.getContentPane().setBackground(Color.decode(Colors.bgColor));
-        ventanaProyectos.setVisible(true);
+
+        JPanel barraLateral = getjPanel(frame);
+        barraLateral.setPreferredSize(new Dimension(200, frame.getHeight()));
+        frame.add(barraLateral, BorderLayout.LINE_START);
+        frame.add(projectsPanel, BorderLayout.CENTER);
+        frame.getContentPane().setBackground(Color.decode(Colors.bgColor));
+        frame.setVisible(true);
     }
 
     public static class Post {
@@ -216,32 +228,35 @@ public class Dashboard extends JFrame {
         barraLateral.add(barraNombreUsuario);
         barraLateral.add(barraTipoUsuario);
 
+        JButton botonHome = new JButton("Home");
+        botonHome.setMaximumSize(new Dimension(Integer.MAX_VALUE, botonHome.getMinimumSize().height));
+        botonHome.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botonHome.setForeground(Color.decode("#4B3B6E"));
+        botonHome.setBackground(Color.decode("#C6BFD6"));
+        botonHome.setFont(new Font("Consolas", Font.PLAIN, 14));
+        botonHome.addActionListener(e -> {
+            System.out.println("Home");
+        });
+        barraLateral.add(botonHome);
+
         JButton botonVerMisPosts = new JButton("Ver mis proyectos");
+        botonVerMisPosts.setMaximumSize(new Dimension(Integer.MAX_VALUE, botonVerMisPosts.getMinimumSize().height));
         botonVerMisPosts.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonVerMisPosts.setForeground(Color.decode("#4B3B6E"));
         botonVerMisPosts.setBackground(Color.decode("#C6BFD6"));
         botonVerMisPosts.setFont(new Font("Consolas", Font.PLAIN, 14));
         barraLateral.add(botonVerMisPosts);
-        botonVerMisPosts.addActionListener(e -> {
-            System.out.println("botonVerMisPosts");
-        });
 
-        // No borrar este texto, es el margen entre los dos botones de una manera
-        // sencilla.
-        JLabel textoEnBlanco = new JLabel("");
-        textoEnBlanco.setAlignmentX(Component.CENTER_ALIGNMENT);
-        textoEnBlanco.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
-        barraLateral.add(textoEnBlanco);
-
-        JButton botonCrearUnProyecto = new JButton("Crear un Proyecto");
-        botonCrearUnProyecto.setAlignmentX(Component.CENTER_ALIGNMENT);
-        botonCrearUnProyecto.setForeground(Color.decode("#4B3B6E"));
-        botonCrearUnProyecto.setBackground(Color.decode("#C6BFD6"));
-        botonCrearUnProyecto.setFont(new Font("Consolas", Font.PLAIN, 14));
-        botonCrearUnProyecto.addActionListener(e -> {
-            System.out.println("botonCrearUnProyecto");
+        JButton PerfilButton = new JButton("PerfilButton");
+        PerfilButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, PerfilButton.getMinimumSize().height));
+        PerfilButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        PerfilButton.setForeground(Color.decode("#4B3B6E"));
+        PerfilButton.setBackground(Color.decode("#C6BFD6"));
+        PerfilButton.setFont(new Font("Consolas", Font.PLAIN, 14));
+        PerfilButton.addActionListener(e -> {
+            System.out.println("PerfilButton");
         });
-        barraLateral.add(botonCrearUnProyecto);
+        barraLateral.add(PerfilButton);
         return barraLateral;
     }
 }
