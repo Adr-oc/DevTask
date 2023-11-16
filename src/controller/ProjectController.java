@@ -41,7 +41,7 @@ public class ProjectController {
         Project project = new Project(id, projectName, description, email, author, devs, languages);
         writeProjectToCSV(project);
     }
-/* 
+ 
     public Project findProjectById(String id) {
         for (Project project : projects) {
             if (project.getId().equals(id)) {
@@ -49,7 +49,7 @@ public class ProjectController {
             }
         }
         return null;
-    }*/
+    }
 
     public List<Project> getAllProjects() {
         return projects;
