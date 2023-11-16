@@ -8,5 +8,10 @@ public class DevUser extends User {
     }
     
     String myUsername = getUsername(); // Access the username
-    String myEmail = getEmail();       // Access the email
+    String myEmail = getEmail();  
+    
+    @Override
+    public String getUserType() {
+        return "Dev";
+    }
 }

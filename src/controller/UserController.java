@@ -1,7 +1,7 @@
 package controller;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import model.UserManager;
 
 
@@ -11,14 +11,16 @@ public class UserController {
     protected String email;
     protected String password;
     protected String userType;
+    private static List<String> currentUser;
     private UserManager userManager = new UserManager();
-    
+
     public UserController() {
         this.userManager = new UserManager();
     }
 
+    //#region Validations
     public boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        String emailRegex = "^[A-Za-z0-9]+([.-_]?[A-Za-z0-9]+)*@[A-Za-z0-9]+([.-]?[A-Za-z0-9]+)*\\.[A-Za-z]{2,}$";
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
@@ -26,6 +28,7 @@ public class UserController {
     
     public boolean login(String email, String enteredPassword) {
         if (userManager.login(email, enteredPassword)) {
+           currentUser = userManager.getUserData();
            return true;
         } else {
            return false;
@@ -39,8 +42,6 @@ public class UserController {
             return false;
         }
     }
-
-
 
     public int handleLogin(String email, String password) {
         boolean emailBol = isValidEmail(email);
@@ -90,5 +91,23 @@ public class UserController {
             return 5; // código de error: el usuario ya existe
         }
     }
+    
+    //logout
+    public static void logout(){
+        currentUser = null;
+    }
+    //#endregion
+
+    //#region Getters and Setters
+    public static String getUsername() {
+        return currentUser.get(0);
+    }
+    public String getEmail() {
+        return currentUser.get(1);
+    }
+    public static String getUserType() {
+        return currentUser.get(2);
+    }
+    //#endregion
 
 }

@@ -64,4 +64,7 @@ public class User {
         return email;
     }
 
+    public String getUserType() {
+        return "User";
+    }
 }

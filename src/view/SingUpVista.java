@@ -1,6 +1,5 @@
 package view;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import controller.UserController;
@@ -14,7 +13,6 @@ public class SingUpVista {
     private String Red = "#E74C3C";
     private String Gray = "#CCCCCC";
     private String bgColor = "#191A23";
-    private boolean usernameBol, emailBol, passwordBol, userTypeBol = true;
     public UserController userController = new UserController();
 
     private void setEmailFocusListeners(JTextField emailTxtBox, JLabel tituloEmail) {
@@ -101,6 +99,18 @@ public class SingUpVista {
 
 
     public void GUI() {
+        UIManager.put("OptionPane.background", Color.decode(Colors.bgColor));
+        UIManager.put("Panel.background", Color.decode(Colors.bgColor));
+        UIManager.put("OptionPane.messageForeground", Color.decode(Colors.TextColor));
+        UIManager.put("OptionPane.font", new Font("Consolas", Font.PLAIN, 17));
+        UIManager.put("OptionPane.foreground", Color.decode(Colors.TextColor));
+        UIManager.put("OptionPane.messageFont", new Font("Consolas", Font.PLAIN, 17));
+        UIManager.put("OptionPane.buttonFont", new Font("Consolas", Font.PLAIN, 17));
+        UIManager.put("OptionPane.okButtonText", "Aceptar");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
+        UIManager.put("OptionPane.yesButtonText", "Si");
+        UIManager.put("OptionPane.noButtonText", "No");
+        UIManager.put("OptionPane.buttonColor", Color.decode(Colors.bgCard));
 
         JFrame frame = new JFrame("SingUp");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -295,7 +305,10 @@ public class SingUpVista {
                     userTypeComboBox.setForeground(Color.decode(Red));
                     break;
                 case 5:
-                    JOptionPane.showMessageDialog(null, "El usuario ya existe");
+                    tituloEmail.setForeground(Color.decode(Red));
+                    emailTxtBox.setBorder(new MatteBorder(0, 0, 1, 0, Color.decode(Red)));
+                    emailTxtBox.setForeground(Color.decode(Red));
+                                        JOptionPane.showMessageDialog(null, "El correo ya esta en uso");
                     break;
                 default:
                     tituloNombre.setForeground(Color.decode(Green));

@@ -7,7 +7,13 @@ public class NormalUser extends User {
         super(username, email, password,encrypt);
     }
     String myUsername = getUsername(); // Access the username
-    String myEmail = getEmail();       // Access the email
+    String myEmail = getEmail(); 
+    
+    @Override
+    public String getUserType() {
+        return "Normal";
+    }
+
 }
 
 

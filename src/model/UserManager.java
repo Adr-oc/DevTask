@@ -8,6 +8,7 @@ public class UserManager {
     // Attributes
     private List<User> users;
     private String csvFileName = "src/db/users.csv";
+    private User currentUser;
 
 
     // Constructor (carga los archivos del csv))
@@ -61,18 +62,14 @@ public class UserManager {
         // Verifica si el usuario existe y si la contraseña es correcta
         if (loginUser != null && loginUser.login(enteredPassword)) {
             System.out.println("Login successful.");
-             return true;
+            currentUser = loginUser;
+            return true;
         } else {
             System.out.println("Login failed.");
             return false;
         }
     }
 
-
-    //!!!!Funcion temporal solo para desarrollar no implementar en el proyecto final!!!!!!!
-    public List<User> getUsers() {
-        return users;
-    }
 
 
     // Load users from CSV file
@@ -114,5 +111,19 @@ public class UserManager {
             System.out.println("Error writing user to CSV file: " + e.getMessage());
         }
     }
+
+    //logout
+    public void logout(){
+        currentUser = null;
+    }
+
+    public List<String> getUserData() {
+        List<String> userData = new ArrayList<>();
+        userData.add(currentUser.getUsername());
+        userData.add(currentUser.getEmail());
+        userData.add(currentUser.getUserType());
+        return userData;
+    }
+
 
 }

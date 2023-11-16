@@ -20,7 +20,7 @@ public class Project {
         this.languages = languages;
     }
 
-    public String getIdProject() {
+    public String getId() {
         return idProject;
     }
 
@@ -48,6 +48,26 @@ public class Project {
         return languages;
     }
 
+
+    // Settersz
+    public void setIdProject(String idProject) {
+        this.idProject = idProject;
+    }
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+    public void setDevs(String devs) {
+        this.devs = devs;
+    }
     public void setLanguages(String languages) {
         this.languages = languages;
     }
