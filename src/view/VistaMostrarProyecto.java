@@ -30,7 +30,7 @@ public class VistaMostrarProyecto extends JFrame {
 
         JButton returnButton = new JButton("Volver");
         returnButton.setFocusPainted(false);
-        returnButton.setForeground(Color.decode("#e8eeef"));
+        returnButton.setForeground(Color.decode("#a8e0b7"));
         returnButton.setBackground(Color.decode(Colors.bgCard));
         returnButton.setFont(new Font("Consolas", Font.PLAIN, 17));
         returnButton.setBorder(new RoundedBorder(20));
@@ -52,7 +52,7 @@ public class VistaMostrarProyecto extends JFrame {
         for (String language : languages) {
             JButton languageButton = new JButton(language);
             languageButton.setFocusPainted(false);
-            languageButton.setForeground(Color.decode("#e8eeef"));
+            languageButton.setForeground(Color.decode("#E0A8D1"));
             languageButton.setBackground(Color.decode(Colors.bgCard));
             languageButton.setFont(new Font("Consolas", Font.PLAIN, 17));
             languageButton.setBorder(new RoundedBorder(20));
