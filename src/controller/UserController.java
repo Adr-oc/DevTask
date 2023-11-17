@@ -12,10 +12,10 @@ public class UserController {
     protected String password;
     protected String userType;
     private static List<String> currentUser;
-    private UserManager userManager = new UserManager();
+    private static UserManager userManager = new UserManager();
 
     public UserController() {
-        this.userManager = new UserManager();
+        UserController.userManager = new UserManager();
     }
 
     //#region Validations
@@ -98,15 +98,19 @@ public class UserController {
     }
     //#endregion
 
+
     //#region Getters and Setters
     public static String getUsername() {
         return currentUser.get(0);
     }
-    public String getEmail() {
+    public static String getEmail() {
         return currentUser.get(1);
     }
     public static String getUserType() {
         return currentUser.get(2);
+    }
+    public static boolean verify(String email, String password) {
+        return userManager.login(email, password);
     }
     //#endregion
 

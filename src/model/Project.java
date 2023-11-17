@@ -10,8 +10,8 @@ public class Project {
     private String languages; 
 
 
-    public Project(String idProject, String projectName, String description, String email, String author, String devs, String languages) {
-        this.idProject = idProject;
+    public Project(String projectName, String description, String email, String author, String devs, String languages) {
+        this.idProject = (projectName + "/" + author).replace(" ", "_");
         this.projectName = projectName;
         this.description = description;
         this.email = email;

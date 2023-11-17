@@ -12,6 +12,6 @@ public class DevUser extends User {
     
     @Override
     public String getUserType() {
-        return "Dev";
+        return "dev";
     }
 }
