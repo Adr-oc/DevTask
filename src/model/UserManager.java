@@ -126,4 +126,30 @@ public class UserManager {
     }
 
 
+    public void changePassword(String email, String newPassword) {
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
+                user.setPassword(newPassword);
+                overwriteUsersToCSV();
+                break;
+            }
+        }
+    }
+
+    private void overwriteUsersToCSV() {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(csvFileName, false))) {
+            for (User user : users) {
+                if (user instanceof DevUser){
+                    pw.println(user.getUsername() + "," + user.getEmail() + "," + user.getPassword() + "," + "dev");
+                } else if (user instanceof NormalUser){
+                    pw.println(user.getUsername() + "," + user.getEmail() + "," + user.getPassword() + "," + "normal");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing users to CSV file: " + e.getMessage());
+        }
+    }
+
+
+
 }

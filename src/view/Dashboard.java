@@ -2,6 +2,7 @@ package view;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import model.Project;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -535,11 +536,81 @@ public class Dashboard extends JFrame {
     }
     
 
-    public class ProfileView extends JPanel{
+    public class ProfileView extends JPanel {
+        private JLabel usernameLabel;
+        private JLabel userTypeLabel;
+        private JLabel emailLabel;
+        private JLabel passwordLabel;
+        private JButton changePasswordButton;
+
         public ProfileView() {
-            this.setLayout(new GridLayout(2, 1));
-            this.setBackground(Color.decode(Colors.Error));
+            this.setBackground(Color.decode(Colors.bgCard));
             this.setSize(500, 500);
+            this.setBorder(BorderFactory.createEmptyBorder(200, 200, 40, 40));
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+
+            usernameLabel = new JLabel(UserController.getUsername());
+            usernameLabel.setFont(new Font("Consolas", Font.PLAIN, 40));
+            usernameLabel.setForeground(Color.decode(Colors.Primary));
+
+            userTypeLabel = new JLabel(UserController.getUserType());
+            userTypeLabel.setFont(new Font("Consolas", Font.PLAIN, 30));
+            userTypeLabel.setForeground(Color.decode(Colors.TextColor));
+
+            emailLabel = new JLabel(UserController.getEmail());
+            emailLabel.setFont(new Font("Consolas", Font.PLAIN, 30));
+            emailLabel.setForeground(Color.decode(Colors.TextColor));
+
+            passwordLabel = new JLabel("**********");
+            passwordLabel.setFont(new Font("Consolas", Font.PLAIN, 30));
+            passwordLabel.setForeground(Color.decode(Colors.TextColor));
+
+
+            changePasswordButton = new JButton("Cambiar Contraseña");
+            changePasswordButton.setForeground(Color.decode(Colors.TextColor));
+            changePasswordButton.setBackground(Color.decode(Colors.bgCard));
+            changePasswordButton.setFont(new Font("Consolas", Font.PLAIN, 17));
+            changePasswordButton.setPreferredSize(new Dimension(300, 50));
+            changePasswordButton.setBorder(new RoundedBorder(25));
+            changePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            //hover
+            changePasswordButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    changePasswordButton.setForeground(Color.decode(Colors.Primary));
+                }
+            
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    changePasswordButton.setForeground(Color.decode(Colors.TextColor));
+                }
+            });
+            changePasswordButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                        String password = JOptionPane.showInputDialog("Ingrese su contraseña:");
+                        if (password != null && UserController.verify(UserController.getEmail(),password)){   
+                            String newPassword = JOptionPane.showInputDialog("Ingrese su nueva contraseña:"); 
+                            if (newPassword != null && newPassword.length() >= 8){
+                                UserController.changePassword(newPassword);
+                                JOptionPane.showMessageDialog(null, "Contraseña cambiada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Contraseña no válida debe ser mayor a 8", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Contraseña incorrecta");
+
+                        }
+                }
+            });
+
+            this.add(usernameLabel);
+            this.add(userTypeLabel);
+            this.add(emailLabel);
+            this.add(passwordLabel);
+            this.add(changePasswordButton);
+
+            
         }
     }
 

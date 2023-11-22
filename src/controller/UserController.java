@@ -18,6 +18,7 @@ public class UserController {
         UserController.userManager = new UserManager();
     }
 
+
     //#region Validations
     public boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9]+([.-_]?[A-Za-z0-9]+)*@[A-Za-z0-9]+([.-]?[A-Za-z0-9]+)*\\.[A-Za-z]{2,}$";
@@ -113,5 +114,10 @@ public class UserController {
         return userManager.login(email, password);
     }
     //#endregion
+
+
+    public static void changePassword(String newPassword) {
+        userManager.changePassword(getEmail(), newPassword);
+    }
 
 }
